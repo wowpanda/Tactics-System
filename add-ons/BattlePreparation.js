@@ -42,21 +42,23 @@ Scene_BattleTS.prototype.start = function() {
 
 BattlePreparation.Scene_BattleTS_createAllWindows = Scene_BattleTS.prototype.createAllWindows;
 Scene_BattleTS.prototype.createAllWindows = function() {
-    this.createLogWindowBefore();
-    this.createPreparationWindow();
     BattlePreparation.Scene_BattleTS_createAllWindows.call(this);
     this.createFormationWindow();
     if (BattleManagerTS._phase === 'preparationPhase') {
         this._registerWindow = this._mapWindow;
         this._mapWindow = this._formationWindow;
+        this.menuCalling = false;
+        this._mapWindow.show();
+        this._mapWindow.activate();
     } else {
         this._mapWindow.refresh();
     }
 };
 
+BattlePreparation.Scene_BattleTS_createLogWindow = Scene_BattleTS.prototype.createLogWindow;
 Scene_BattleTS.prototype.createLogWindow = function() {
-    // Need to create log window before preparation window.
-    // Else create preparation window after and hide when status window is opened.
+    BattlePreparation.Scene_BattleTS_createLogWindow.call(this);
+    this.createPreparationWindow();
 };
 
 Scene_BattleTS.prototype.createLogWindowBefore = function() {
